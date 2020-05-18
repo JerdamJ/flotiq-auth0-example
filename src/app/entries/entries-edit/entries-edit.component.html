@@ -1,0 +1,83 @@
+<div *ngIf="loading" class="spinner-position">
+  <fa-icon [icon]="faSpinner" [spin]="true" size="6x"></fa-icon>
+</div>
+<div class="bg-white border-solid border-2 border-gray-300 overflow-hidden" *ngIf="!loading">
+  <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+          <h3>Create/Edit entry</h3>
+      </h3>
+  </div>
+  <div class="mt-10 mb-10">
+      <form class="w-full pr-10" [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+          <div class="md:flex md:items-center mb-6">
+              <div class="md:w-1/5">
+                  <label class="block text-black-500 font-bold md:text-center mb-1 md:mb-0 pr-4" for="title">
+                      Title
+                  </label>
+              </div>
+              <div class="md:w-4/5">
+                  <input
+                  class="appearance-none border-2 border-black-200 w-full py-2 px-4 text-gray-700 leading-tight
+                  focus:outline-none focus:bg-white focus:border-green-400"
+                  id="title"
+                  type="text"
+                  formControlName="title">
+              </div>
+          </div>
+          <div class="md:flex md:items-center mb-6">
+              <div class="md:w-1/5">
+                  <label class="block text-black-500 font-bold md:text-center mb-1 md:mb-0 pr-4" for="description">
+                      Description
+                  </label>
+              </div>
+              <div class="md:w-4/5">
+                  <textarea
+                  formControlName="description"
+                  id="description"
+                  class="appearance-none border-2 border-gray-200 w-full py-2 px-4
+                  text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500 resize-none w-full"
+                  rows="10"></textarea>
+              </div>
+          </div>
+          <div class="md:flex md:items-center mb-6" *ngIf="editMode">
+              <div class="md:w-1/5">
+                  <label class="block text-black-500 font-bold md:text-center mb-1 md:mb-0 pr-4" for="status">
+                      Status
+                  </label>
+              </div>
+              <div class="md:w-2/5">
+                  <div class="inline-block relative w-64">
+                      <select class="block appearance-none w-full bg-white border-2 border-black-400 hover:border-dark-500 px-4 py-2 pr-8 leading-tight focus:border-green-500"
+                      formControlName="status" id="status">
+                      <option value="New">New</option>
+                      <option value="In progress">In progress</option>
+                      <option value="Done">Done</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                      <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="md:flex md:items-center mb-6">
+          <div class="md:w-1/3">
+          </div>
+          <div class="md:w-2/3 md:text-right">
+              <button class="bg-blue-500 hover:bg-blue-400 text-white-800 font-bold py-2 px-6 inline-flex items-center ml-4"
+              type="button"
+              (click)="onSubmit()"
+              [ngClass]="disableInput()"
+              [disabled]="sending">
+              <span>Submit</span>
+              <span class="ml-1" *ngIf="sending">
+                  <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
+              </span>
+          </button>
+          <button class="bg-red-500 hover:bg-red-400 text-white-800 font-bold py-2 px-6 inline-flex items-center ml-4" type="button" (click)="onCancel()" [disabled]="sending">
+              <span>Cancel</span>
+          </button>
+      </div>
+  </div>
+</form>
+</div>
+</div>
