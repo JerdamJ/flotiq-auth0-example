@@ -4,4 +4,5 @@ export interface Todolist {
   user: string;
   status: string;
   description: string;
+  email: string;
 }

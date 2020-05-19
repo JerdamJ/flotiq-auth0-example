@@ -3,6 +3,7 @@
 .firebaserc
 firebase.json
 .firebase/
+src/config/config.ts
 
 # compiled output
 /dist

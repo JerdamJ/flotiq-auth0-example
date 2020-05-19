@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { environment } from '../../environments/environment';
+import { CONFIG } from '../../config/config';
 import { take, switchMap } from 'rxjs/operators';
 import { Todolist } from '../models/todolist.model';
 import { Subject } from 'rxjs';
@@ -21,9 +21,9 @@ export class FlotiqService {
     return this.auth.getUser$().pipe(
       take(1),
       switchMap(user => {
-        return this.http.get(`${environment.flotiqApiUrl}/content/todolist`, {
-          headers: new HttpHeaders({'X-AUTH-TOKEN': environment.flotiqApiKey}),
-          params: new HttpParams().set('filters', `{"user":{"type":"contains","filter": "${user.sub}"}}`)
+        return this.http.get(`${CONFIG.flotiqApiUrl}/content/todolist`, {
+          headers: new HttpHeaders({'X-AUTH-TOKEN': CONFIG.flotiqApiKey}),
+          params: new HttpParams().set('filters', `{"email":{"type":"contains","filter": "${user.email}"}}`)
         });
       })
     );
@@ -34,9 +34,8 @@ export class FlotiqService {
     return this.auth.getUser$().pipe(
       take(1),
       switchMap(user => {
-        console.log(user);
-        return this.http.post(`${environment.flotiqApiUrl}/content/todolist`, {...data, user: user.sub}, {
-          headers: new HttpHeaders({'X-AUTH-TOKEN': environment.flotiqApiKey})
+        return this.http.post(`${CONFIG.flotiqApiUrl}/content/todolist`, {...data, user: user.sub, email: user.email}, {
+          headers: new HttpHeaders({'X-AUTH-TOKEN': CONFIG.flotiqApiKey})
         });
       })
     );
@@ -46,8 +45,8 @@ export class FlotiqService {
     return this.auth.getUser$().pipe(
       take(1),
       switchMap(user => {
-        return this.http.get<Todolist>(`${environment.flotiqApiUrl}/content/todolist/${id}`, {
-          headers: new HttpHeaders({'X-AUTH-TOKEN': environment.flotiqApiKey})
+        return this.http.get<Todolist>(`${CONFIG.flotiqApiUrl}/content/todolist/${id}`, {
+          headers: new HttpHeaders({'X-AUTH-TOKEN': CONFIG.flotiqApiKey})
         });
       })
     );
@@ -58,8 +57,8 @@ export class FlotiqService {
     return this.auth.getUser$().pipe(
       take(1),
       switchMap(user => {
-        return this.http.delete(`${environment.flotiqApiUrl}/content/todolist/${id}`, {
-          headers: new HttpHeaders({'X-AUTH-TOKEN': environment.flotiqApiKey}),
+        return this.http.delete(`${CONFIG.flotiqApiUrl}/content/todolist/${id}`, {
+          headers: new HttpHeaders({'X-AUTH-TOKEN': CONFIG.flotiqApiKey}),
         });
       })
     );
@@ -69,8 +68,8 @@ export class FlotiqService {
     return this.auth.getUser$().pipe(
       take(1),
       switchMap(user => {
-        return this.http.put(`${environment.flotiqApiUrl}/content/todolist/${id}`, {...data, user: user.sub}, {
-          headers: new HttpHeaders({'X-AUTH-TOKEN': environment.flotiqApiKey}),
+        return this.http.put(`${CONFIG.flotiqApiUrl}/content/todolist/${id}`, {...data, user: user.sub, email: user.email}, {
+          headers: new HttpHeaders({'X-AUTH-TOKEN': CONFIG.flotiqApiKey}),
         });
       })
     );
